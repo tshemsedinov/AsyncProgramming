@@ -38,3 +38,5 @@
 - Functional idioms often favor lazy and exclusive-progression abstractions.
 - Object-oriented and procedural code commonly mixes the other categories.
 - **Legacy** stacks: callback libraries such as **Async.js** and **Metasync** mainly teach composition and error propagation over pre-Promise APIs.
+
+Course: https://github.com/HowProgrammingWorks/Index/blob/master/Courses/Async-2026.md
