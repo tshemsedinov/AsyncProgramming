@@ -5,9 +5,9 @@
 **Granularity (what is delivered asynchronously).**
 
 - No single async result value: callbacks; `AbortSignal` / `AbortController`.
-- Single value (fine-grained): `Promise`; deferred handles (`Deferred`); futures (`Future`); reactive **Signal**; finite automata (FSM) as step machines.
+- Single value (fine-grained): `Promise`; `Deferred`; `Future`; reactive **Signal**; finite automata (FSM) as step machines.
 - Finite multiplicity: `Thenable` in general; async collections / aggregators; `AsyncCollector`-style batching.
-- Unbounded multiplicity: synchronous iterators; **GoF Iterator**; `function*` / `yield`; async generators; async iterators; async queues (`AsyncQueue`).
+- Unbounded multiplicity: synchronous iterators; **GoF Iterator**; `function*` / `yield`; async generators; async iterators; `AsyncQueue`.
 
 **Flow (how structure is expressed).**
 
@@ -23,9 +23,9 @@
 **State ownership.**
 
 - Exclusive progression: futures; iterators; **`Disposable`** / async teardown scopes (single owner of cleanup).
-- Shared: mutexes (`Mutex`); semaphores (`Semaphore`); admission / worker pools (`AsyncPool`); other locks; spin locks.
+- Shared: `Mutex`; `Semaphore`; admission / worker pools (`AsyncPool`); other locks; spin locks.
 - Isolated containers: **Actor model** / **Actor pattern**; worker **threads**; child **processes**.
-- Cooperative delegation: Chain of Responsibility; **middleware** stacks; **callback composition** (`compose callbacks`); library-style **async compose**.
+- Cooperative delegation: Chain of Responsibility; **middleware** stacks; **callback composition**; library-style **async compose**.
 - Transactional / atomic: CAS-style patterns (`Atomics`, `wait` / `notify` / `waitAsync`).
 
 **Eagerness.**
