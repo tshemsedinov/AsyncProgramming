@@ -2,44 +2,39 @@
 
 > Map of Async Primitives for JavaScript and TypeScript
 
-Granularity:
-- no: callback, AbortSignal/AbortController
-- single value (fine-grained): Promise, Deferred, Future, Signal, Automata (FSM)
-- multiple finite: Thenable, async collection
-- multiple infinite: js iterator, gof patterns iterator, generators, async queue
+**Granularity (what is delivered asynchronously).**
 
-Flow:
-- control flow: generators, async/await
-- middle class: js iterator (for await)
-- event flow: signal, AbortSignal/AbortController, observer (eventEmitter, EventTarget), Stream
+- No single async result value: callbacks; `AbortSignal` / `AbortController`.
+- Single value (fine-grained): `Promise`; deferred handles (`Deferred`); futures (`Future`); reactive **Signal**; finite automata (FSM) as step machines.
+- Finite multiplicity: `Thenable` in general; async collections / aggregators; `AsyncCollector`-style batching.
+- Unbounded multiplicity: synchronous iterators; **GoF Iterator**; `function*` / `yield`; async generators; async iterators; async queues (`AsyncQueue`).
 
-Propagation:
-- Push: callback, promise, event abstractions, signal
-- Pull: js iterator (for await), generator
-- Hybrid: streams, async queue, async collection
+**Flow (how structure is expressed).**
 
-State ownership:
-- Exclusive: future, iterator
-- Shared: mutex, locks, semaphore,
-- Isolated (container): Actor, Threads
-- Cooperative: GoF: Chain of Responsibility, middleware
-- Transactional: CAS (Atomics.wait, notify, waitAsync), TODO
+- Control flow: generators; `async` / `await`; `for await` … `of`; *coroutines* in the JS sense (cooperative threads of control built from those primitives).
+- Event / push (incl. **Observer**): `Signal`; `AbortSignal` / `AbortController`; `EventEmitter` / `EventTarget`; `Stream`.
 
-Lazyness:
-- immediate: promise, timers, callbacks, all except...
-- layzy: future, function returning factory, async function conposition (pipe), do, manadic chains
+**Propagation.**
 
-By paradigm:
-- FP: lazy, exclusive
-- OOP and Procedural: everythin else
+- Push: callbacks; promises; event APIs; signals.
+- Pull: JS iterators (`for await`); generators.
+- Hybrid: streams; async queues; async collections; `MessageChannel` / `MessagePort`; `BroadcastChannel`; optional RxJS-style reactive pipelines.
 
-| Applied 💯     | Advanced 🧑‍🎓                | System ⚙️           | Elective 🧑‍🚀           | Legacy 🕰️          |
-|:--------------|:--------------------------|:-------------------|:---------------------|:------------------|
-| `callbacks`   | `AsyncQueue`              | `Thenable`         | `compose callbacks`  | `Deferred`        |
-| `promises`    | `AsyncPool`               | `Semaphore`        | `async compose`      | `function*/yield` |
-| `async/await` | `AsyncCollector`          | `Mutex`            | `Observer`           | `Async.js`        |
-| `events`      | `Chain of responsibility` | `Spin Lock`        | `Future`             | `Metasync`        |
-| `streams`     | `Async Generator`         | `MessageChannel`   | `coroutines`         | `middleware`      |
-| `signals`     | `GoF pattern Iterator`    | `BroadcastChannel` | `Actor Model`        | `RxJS`            |
-| `locks`       | `Actor pattern`           | `threads`          | `do`                 |                   |
-| `iterators`   | `Disposable`              | `processes`        |                      |                   |
+**State ownership.**
+
+- Exclusive progression: futures; iterators; **`Disposable`** / async teardown scopes (single owner of cleanup).
+- Shared: mutexes (`Mutex`); semaphores (`Semaphore`); admission / worker pools (`AsyncPool`); other locks; spin locks.
+- Isolated containers: **Actor model** / **Actor pattern**; worker **threads**; child **processes**.
+- Cooperative delegation: Chain of Responsibility; **middleware** stacks; **callback composition** (`compose callbacks`); library-style **async compose**.
+- Transactional / atomic: CAS-style patterns (`Atomics`, `wait` / `notify` / `waitAsync`).
+
+**Eagerness.**
+
+- Immediate / eager: scheduled promises; timers; typical fire-and-forget callbacks (unless wrapped).
+- Lazy: futures started on demand; factories; async composition (`pipe`, monadic chains, **`do` notation**-style builders); explicit “run later” combinators.
+
+**Paradigm (heuristic).**
+
+- Functional idioms often favor lazy and exclusive-progression abstractions.
+- Object-oriented and procedural code commonly mixes the other categories.
+- **Legacy** stacks: callback libraries such as **Async.js** and **Metasync** mainly teach composition and error propagation over pre-Promise APIs.
