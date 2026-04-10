@@ -4,7 +4,7 @@
 
 **Granularity (what is delivered asynchronously).**
 
-- No single async result value: callbacks; `AbortSignal` / `AbortController`.
+- None or single: callbacks; `AbortSignal` / `AbortController`.
 - Single value (fine-grained): `Promise`; `Deferred`; `Future`; reactive **Signal**; finite automata (FSM) as step machines.
 - Finite multiplicity: `Thenable` in general; async collections / aggregators; `AsyncCollector`-style batching.
 - Unbounded multiplicity: synchronous iterators; **GoF Iterator**; `function*` / `yield`; async generators; async iterators; `AsyncQueue`.
